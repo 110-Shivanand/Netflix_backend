@@ -1,0 +1,213 @@
+/* ─── Hero Banner ───────────────────────────────────────────── */
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.hero-banner__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.hero-banner__bg-placeholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+}
+
+/* Gradient overlays */
+.hero-banner__overlay-left {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.55) 35%,
+    rgba(0, 0, 0, 0.1) 65%,
+    transparent 100%
+  );
+}
+
+.hero-banner__overlay-bottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    #141414 0%,
+    rgba(20, 20, 20, 0.7) 15%,
+    transparent 50%
+  );
+}
+
+/* Content */
+.hero-banner__content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 0 4% 130px;
+  max-width: 680px;
+}
+
+.hero-banner__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+
+.hero-banner__meta-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #e50914;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-banner__title {
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+  animation: fadeInUp 0.6s ease 0.15s both;
+}
+
+.hero-banner__description {
+  font-size: clamp(0.9rem, 1.5vw, 1rem);
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 24px;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  animation: fadeInUp 0.6s ease 0.2s both;
+}
+
+.hero-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease 0.25s both;
+}
+
+.hero-banner__btn-play {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #000000;
+  font-weight: 800;
+  font-size: 1rem;
+  padding: 10px 28px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 150ms ease, transform 150ms ease;
+  white-space: nowrap;
+}
+
+.hero-banner__btn-play:hover {
+  background: rgba(255, 255, 255, 0.75);
+  transform: scale(1.03);
+}
+
+.hero-banner__btn-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(109, 109, 110, 0.7);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 10px 24px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 150ms ease;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+.hero-banner__btn-info:hover {
+  background: rgba(109, 109, 110, 0.4);
+}
+
+.hero-banner__btn-watchlist {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.hero-banner__btn-watchlist:hover {
+  border-color: #fff;
+  transform: scale(1.1);
+}
+
+/* Dot indicators */
+.hero-banner__dots {
+  position: absolute;
+  bottom: 80px;
+  right: 4%;
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.hero-banner__dot {
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: width 300ms ease, background 300ms ease;
+  width: 16px;
+  border: none;
+  padding: 0;
+}
+
+.hero-banner__dot--active {
+  background: #fff;
+  width: 28px;
+}
+
+/* Age rating badge */
+.hero-banner__rating-badge {
+  position: absolute;
+  right: 4%;
+  bottom: 130px;
+  z-index: 10;
+  border-left: 3px solid rgba(255, 255, 255, 0.6);
+  padding: 4px 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  background: rgba(0, 0, 0, 0.5);
+}

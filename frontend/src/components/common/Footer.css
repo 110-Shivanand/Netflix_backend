@@ -1,0 +1,52 @@
+/* ─── Footer ────────────────────────────────────────────────── */
+.footer {
+  background: var(--netflix-dark);
+  color: var(--netflix-gray);
+  padding: 48px 4% 32px;
+  margin-top: 60px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer__contact {
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+.footer__contact a {
+  color: var(--netflix-gray);
+  text-decoration: underline;
+  transition: color 150ms ease;
+}
+
+.footer__contact a:hover {
+  color: #fff;
+}
+
+.footer__links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 24px;
+  margin-bottom: 28px;
+}
+
+@media (min-width: 600px)  { .footer__links { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 900px)  { .footer__links { grid-template-columns: repeat(4, 1fr); } }
+
+.footer__link {
+  font-size: 0.82rem;
+  color: var(--netflix-gray);
+  text-decoration: none;
+  transition: color 150ms ease;
+  line-height: 1.8;
+}
+
+.footer__link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer__copy {
+  font-size: 0.78rem;
+  color: #555;
+  margin-top: 8px;
+}

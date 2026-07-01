@@ -1,0 +1,131 @@
+/* ─── Watchlist & Browse Pages ──────────────────────────────── */
+.browse-page {
+  min-height: 100vh;
+  background: #141414;
+  padding-top: 90px;
+  padding-bottom: 80px;
+}
+
+.browse-page__header {
+  padding: 0 4%;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.browse-page__title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Genre filter pills */
+.genre-filter-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.genre-filter-btn {
+  padding: 5px 16px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-family: inherit;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.genre-filter-btn--default {
+  background: rgba(255,255,255,0.08);
+  color: #c0c0c0;
+  border-color: rgba(255,255,255,0.1);
+}
+
+.genre-filter-btn--default:hover {
+  background: rgba(255,255,255,0.13);
+  color: #fff;
+}
+
+.genre-filter-btn--active {
+  background: #e50914;
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Grid */
+.content-grid {
+  padding: 0 4%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .content-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+  }
+}
+
+/* Empty watchlist */
+.watchlist-empty {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.watchlist-empty__title {
+  color: #888;
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+}
+
+.watchlist-empty__sub {
+  color: #555;
+  font-size: 0.88rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 48px;
+  padding: 0 4%;
+}
+
+.pagination__btn {
+  padding: 8px 20px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.08);
+  color: #c0c0c0;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 150ms ease, color 150ms ease;
+}
+
+.pagination__btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+}
+
+.pagination__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.pagination__info {
+  color: #666;
+  font-size: 0.85rem;
+  min-width: 100px;
+  text-align: center;
+}

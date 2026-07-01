@@ -1,0 +1,193 @@
+/* ─── Movie / Show Card ─────────────────────────────────────── */
+.card {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  background: #1a1a1a;
+  transform-origin: center center;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.card:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7);
+  z-index: 20;
+}
+
+/* Poster image */
+.card__poster {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+  transition: filter 200ms ease;
+}
+
+.card:hover .card__poster {
+  filter: brightness(0.6);
+}
+
+/* Placeholder when no image */
+.card__placeholder {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: linear-gradient(160deg, #1e1e1e, #2d2d2d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.card__placeholder-text {
+  color: #666;
+  font-size: 0.75rem;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Hover overlay */
+.card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 0%,
+    rgba(0, 0, 0, 0.5) 45%,
+    transparent 75%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 10px;
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.card:hover .card__overlay {
+  opacity: 1;
+}
+
+/* Card title in overlay */
+.card__title {
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.3;
+}
+
+/* Meta row: rating + maturity */
+.card__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.card__rating {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #f5c518;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.card__maturity {
+  font-size: 0.6rem;
+  border: 1px solid rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.7);
+  padding: 1px 4px;
+  border-radius: 2px;
+}
+
+/* Action buttons row */
+.card__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card__btn-play {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #fff;
+  color: #000;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 150ms ease;
+  white-space: nowrap;
+  flex: 1;
+  justify-content: center;
+}
+
+.card__btn-play:hover {
+  background: rgba(255,255,255,0.85);
+}
+
+.card__btn-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: border-color 150ms ease, transform 150ms ease;
+  flex-shrink: 0;
+}
+
+.card__btn-list:hover {
+  border-color: #fff;
+  transform: scale(1.1);
+}
+
+.card__btn-list--active {
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+/* NEW badge ribbon */
+.card__new-badge {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  background: var(--netflix-red);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 3px 8px 3px 6px;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+  text-transform: uppercase;
+}
+
+/* Progress bar on card (continue watching) */
+.card__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.25);
+}
+
+.card__progress-fill {
+  height: 100%;
+  background: var(--netflix-red);
+}

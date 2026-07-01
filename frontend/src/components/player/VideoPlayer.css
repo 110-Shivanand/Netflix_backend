@@ -1,0 +1,241 @@
+/* ─── Video Player (Video.js Netflix Skin) ──────────────────── */
+.player-wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 12px 60px rgba(0,0,0,0.9);
+}
+
+/* Video.js container */
+.video-js.vjs-netflix-skin {
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+}
+
+/* Big play button */
+.vjs-netflix-skin .vjs-big-play-button {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(229, 9, 20, 0.85);
+  border: 3px solid rgba(255,255,255,0.9);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.vjs-netflix-skin:hover .vjs-big-play-button {
+  background: rgba(229, 9, 20, 1);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.vjs-netflix-skin .vjs-big-play-button .vjs-icon-placeholder::before {
+  font-size: 2rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+/* Control bar */
+.vjs-netflix-skin .vjs-control-bar {
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+  height: 48px;
+  padding: 0 12px;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+/* Progress bar */
+.vjs-netflix-skin .vjs-progress-control {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.vjs-netflix-skin .vjs-progress-holder {
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.25);
+  transition: height 200ms ease;
+}
+
+.vjs-netflix-skin .vjs-progress-control:hover .vjs-progress-holder {
+  height: 6px;
+}
+
+/* Play progress fill */
+.vjs-netflix-skin .vjs-play-progress {
+  background: #e50914;
+  border-radius: 2px;
+}
+
+.vjs-netflix-skin .vjs-play-progress::before {
+  width: 14px;
+  height: 14px;
+  top: -4px;
+  right: -7px;
+  border-radius: 50%;
+  background: #e50914;
+  box-shadow: 0 0 4px rgba(229,9,20,0.8);
+  transition: transform 150ms ease;
+}
+
+.vjs-netflix-skin .vjs-progress-control:hover .vjs-play-progress::before {
+  transform: scale(1.3);
+}
+
+/* Load progress */
+.vjs-netflix-skin .vjs-load-progress {
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+}
+
+.vjs-netflix-skin .vjs-load-progress div {
+  background: rgba(255,255,255,0.2);
+}
+
+/* Volume panel */
+.vjs-netflix-skin .vjs-volume-panel {
+  display: flex;
+  align-items: center;
+}
+
+.vjs-netflix-skin .vjs-volume-bar {
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+}
+
+.vjs-netflix-skin .vjs-volume-level {
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* Time displays */
+.vjs-netflix-skin .vjs-current-time,
+.vjs-netflix-skin .vjs-time-divider,
+.vjs-netflix-skin .vjs-duration,
+.vjs-netflix-skin .vjs-remaining-time {
+  color: #d0d0d0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0 4px;
+}
+
+/* Buttons */
+.vjs-netflix-skin .vjs-play-control,
+.vjs-netflix-skin .vjs-fullscreen-control,
+.vjs-netflix-skin .vjs-mute-control,
+.vjs-netflix-skin .vjs-volume-menu-button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 150ms ease, transform 150ms ease;
+  cursor: pointer;
+  color: #fff;
+}
+
+.vjs-netflix-skin .vjs-play-control:hover,
+.vjs-netflix-skin .vjs-fullscreen-control:hover,
+.vjs-netflix-skin .vjs-mute-control:hover {
+  background: rgba(255,255,255,0.1);
+  transform: scale(1.1);
+}
+
+/* Fullscreen button */
+.vjs-netflix-skin .vjs-fullscreen-control {
+  margin-left: auto;
+}
+
+/* Poster */
+.vjs-netflix-skin .vjs-poster {
+  background-size: cover;
+  background-position: center;
+}
+
+/* Buffering spinner */
+.vjs-netflix-skin .vjs-loading-spinner {
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: #e50914;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  margin: -24px 0 0 -24px;
+}
+
+/* Error display */
+.vjs-netflix-skin .vjs-error-display .vjs-modal-dialog-content {
+  background: rgba(20, 20, 20, 0.9);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+/* ─── Watch Page Layout ─────────────────────────────────────── */
+.watch-page {
+  min-height: 100vh;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.watch-page__topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.watch-page__back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 0.9rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 150ms ease;
+  font-family: inherit;
+}
+
+.watch-page__back-btn:hover {
+  opacity: 0.7;
+}
+
+.watch-page__title {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.watch-page__player-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
