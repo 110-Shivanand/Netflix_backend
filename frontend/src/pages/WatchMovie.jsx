@@ -8,14 +8,14 @@ import { FaArrowLeft } from "react-icons/fa";
 import toast from "react-hot-toast";
 import "../components/player/VideoPlayer.css";
 
-const STREAM_URL = process.env.REACT_APP_STREAM_URL || "http://localhost:8000";
+const STREAM_URL = import.meta.env.VITE_STREAM_URL || "http://localhost:8000";
 
-export default function WatchEpisode() {
-  const { episodeId } = useParams();
+export default function WatchMovie() {
+  const { movieId }  = useParams();
   const { isAuthenticated } = useAuth();
-  const navigate  = useNavigate();
-  const [startAt, setStartAt]  = useState(0);
-  const [loading, setLoading]  = useState(true);
+  const navigate     = useNavigate();
+  const [startAt, setStartAt]   = useState(0);
+  const [loading, setLoading]   = useState(true);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -24,14 +24,14 @@ export default function WatchEpisode() {
       return;
     }
     interactionsAPI
-      .getHistory({ limit: 50 })
+      .getContinueWatching()
       .then((res) => {
-        const entry = res.data.find((h) => h.episode_id === episodeId);
+        const entry = res.data.find((h) => h.movie_id === movieId);
         if (entry) setStartAt(entry.progress);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [episodeId, isAuthenticated, navigate]);
+  }, [movieId, isAuthenticated, navigate]);
 
   if (loading) return <Spinner size="lg" />;
 
@@ -49,8 +49,8 @@ export default function WatchEpisode() {
 
       <div className="watch-page__player-area">
         <VideoPlayer
-          src={`${STREAM_URL}/api/v1/stream/episode/${episodeId}`}
-          episodeId={episodeId}
+          src={`${STREAM_URL}/api/v1/stream/movie/${movieId}`}
+          movieId={movieId}
           startAt={startAt}
         />
       </div>

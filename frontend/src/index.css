@@ -1,526 +1,116 @@
+/* ─── Google Fonts ───────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Google Fonts ──────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-
-/* ─── CSS Variables ─────────────────────────────────────────── */
+/* ─── Variables ─────────────────────────────────────────────── */
 :root {
-  --netflix-red: #E50914;
-  --netflix-dark: #141414;
-  --netflix-black: #000000;
-  --netflix-gray: #808080;
-  --netflix-lightgray: #b3b3b3;
-  --netflix-card-hover: rgba(255, 255, 255, 0.08);
-  --transition-fast: 150ms ease;
-  --transition-base: 250ms ease;
-  --transition-slow: 400ms ease;
-  --border-radius: 4px;
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.6);
-  --shadow-modal: 0 8px 40px rgba(0, 0, 0, 0.8);
+  --red:       #E50914;
+  --red-dark:  #b2070f;
+  --dark:      #141414;
+  --dark2:     #1a1a1a;
+  --dark3:     #232323;
+  --gray:      #808080;
+  --lightgray: #b3b3b3;
+  --green:     #46d369;
+  --gold:      #f5c518;
+  --ease:      cubic-bezier(.4,0,.2,1);
 }
 
-/* ─── Base Reset ────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-  font-size: 16px;
-}
-
-body {
-  background-color: var(--netflix-dark);
-  color: #ffffff;
+/* ─── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html  { scroll-behavior:smooth; font-size:16px; }
+body  {
+  background: var(--dark);
+  color: #fff;
   font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.5;
   overflow-x: hidden;
+  line-height: 1.5;
 }
+a       { color:inherit; text-decoration:none; }
+img     { display:block; max-width:100%; }
+button  { cursor:pointer; border:none; background:none; font-family:inherit; }
 
-/* ─── Scrollbar ─────────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* scrollbar */
+::-webkit-scrollbar       { width:5px; height:5px; }
+::-webkit-scrollbar-track { background:#111; }
+::-webkit-scrollbar-thumb { background:#444; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#666; }
+.no-scroll { overflow:hidden; }
+.scrollbar-hide { scrollbar-width:none; -ms-overflow-style:none; }
+.scrollbar-hide::-webkit-scrollbar { display:none; }
 
-::-webkit-scrollbar-track {
-  background: #1a1a1a;
+/* focus */
+button:focus-visible, a:focus-visible, input:focus-visible {
+  outline: 2px solid var(--red); outline-offset: 2px;
 }
+::selection { background:var(--red); color:#fff; }
 
-::-webkit-scrollbar-thumb {
-  background: #444;
-  border-radius: 3px;
-}
+/* ─── Animations ─────────────────────────────────────────────── */
+@keyframes fadeIn    { from{opacity:0}           to{opacity:1} }
+@keyframes fadeUp    { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+@keyframes fadeDown  { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+@keyframes shimmer   { 0%{background-position:-200% center} 100%{background-position:200% center} }
+@keyframes spin      { to{transform:rotate(360deg)} }
+@keyframes scaleIn   { from{opacity:0;transform:scale(.94)} to{opacity:1;transform:scale(1)} }
+@keyframes slideUp   { from{transform:translateY(100%)} to{transform:translateY(0)} }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #666;
-}
+.fade-in  { animation:fadeIn  .35s var(--ease) both; }
+.fade-up  { animation:fadeUp  .5s  var(--ease) both; }
+.fade-down{ animation:fadeDown .3s  var(--ease) both; }
 
-/* Hide scrollbar for horizontal rows */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
+/* line-clamp */
+.lc1{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.lc2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.lc3{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.lc4{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 
-/* ─── Links ─────────────────────────────────────────────────── */
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* ─── Images ────────────────────────────────────────────────── */
-img {
-  display: block;
-  max-width: 100%;
-}
-
-/* ─── Buttons ───────────────────────────────────────────────── */
-button {
-  cursor: pointer;
-  border: none;
-  background: none;
-  font-family: inherit;
-}
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: 2px solid var(--netflix-red);
-  outline-offset: 2px;
-}
-
-/* ─── Selection ─────────────────────────────────────────────── */
-::selection {
-  background: var(--netflix-red);
-  color: #fff;
-}
-
-/* ─── Animations ────────────────────────────────────────────── */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideInLeft {
-  from { opacity: 0; transform: translateX(-30px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes pulse-red {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.4); }
-  50%       { box-shadow: 0 0 0 8px rgba(229, 9, 20, 0); }
-}
-
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-/* ─── Utility Classes ───────────────────────────────────────── */
-.fade-in        { animation: fadeIn 0.4s var(--transition-base) both; }
-.fade-in-up     { animation: fadeInUp 0.5s var(--transition-base) both; }
-.fade-in-down   { animation: fadeInDown 0.4s var(--transition-base) both; }
-.slide-in-left  { animation: slideInLeft 0.4s var(--transition-base) both; }
-
-.line-clamp-1 {
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.line-clamp-4 {
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ─── Skeleton Loader ───────────────────────────────────────── */
+/* skeleton */
 .skeleton {
-  background: linear-gradient(
-    90deg,
-    #1a1a1a 25%,
-    #2a2a2a 50%,
-    #1a1a1a 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-  border-radius: var(--border-radius);
+  background: linear-gradient(90deg,#1c1c1c 25%,#2c2c2c 50%,#1c1c1c 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.6s infinite;
+  border-radius:4px;
 }
 
-/* ─── Netflix Brand Button ──────────────────────────────────── */
-.btn-netflix {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: var(--netflix-red);
-  color: #ffffff;
-  font-weight: 700;
-  padding: 10px 24px;
-  border-radius: var(--border-radius);
-  transition: background-color var(--transition-fast),
-              transform var(--transition-fast);
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
-  font-size: 0.95rem;
-  letter-spacing: 0.01em;
+/* ─── Buttons ─────────────────────────────────────────────────── */
+.btn {
+  display:inline-flex; align-items:center; gap:8px;
+  font-weight:700; font-family:inherit; border:none; border-radius:4px;
+  cursor:pointer; white-space:nowrap; transition:all .15s var(--ease);
+  font-size:.95rem; padding:11px 26px;
 }
-
-.btn-netflix:hover {
-  background-color: #c4070f;
-  transform: scale(1.02);
+.btn-play {
+  background:#fff; color:#000;
 }
+.btn-play:hover { background:rgba(255,255,255,.85); }
 
-.btn-netflix:active {
-  transform: scale(0.98);
+.btn-info {
+  background:rgba(109,109,110,.65); color:#fff; backdrop-filter:blur(4px);
 }
+.btn-info:hover { background:rgba(109,109,110,.4); }
 
-.btn-netflix:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
+.btn-red { background:var(--red); color:#fff; }
+.btn-red:hover { background:var(--red-dark); }
+
+/* ─── Spinner ─────────────────────────────────────────────────── */
+.spinner-wrap {
+  display:flex; align-items:center; justify-content:center;
+  padding:60px 0;
 }
-
-/* ─── White Button ──────────────────────────────────────────── */
-.btn-white {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: #ffffff;
-  color: #000000;
-  font-weight: 700;
-  padding: 10px 24px;
-  border-radius: var(--border-radius);
-  transition: background-color var(--transition-fast);
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
-  font-size: 0.95rem;
+.spinner-full {
+  position:fixed; inset:0; background:var(--dark);
+  display:flex; align-items:center; justify-content:center; z-index:9999;
 }
-
-.btn-white:hover {
-  background-color: rgba(255, 255, 255, 0.85);
+.spinner {
+  border:3px solid rgba(255,255,255,.12);
+  border-top-color:var(--red);
+  border-radius:50%;
+  animation:spin .7s linear infinite;
 }
-
-/* ─── Ghost Button ──────────────────────────────────────────── */
-.btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background-color: rgba(109, 109, 110, 0.7);
-  color: #ffffff;
-  font-weight: 600;
-  padding: 10px 24px;
-  border-radius: var(--border-radius);
-  transition: background-color var(--transition-fast);
-  cursor: pointer;
-  border: none;
-  font-family: inherit;
-  font-size: 0.95rem;
-  backdrop-filter: blur(4px);
-}
-
-.btn-ghost:hover {
-  background-color: rgba(109, 109, 110, 0.4);
-}
-
-/* ─── Form Inputs ───────────────────────────────────────────── */
-.input-netflix {
-  width: 100%;
-  background-color: #333333;
-  color: #ffffff;
-  border: 1px solid transparent;
-  border-radius: var(--border-radius);
-  padding: 14px 16px;
-  font-family: inherit;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color var(--transition-fast),
-              background-color var(--transition-fast);
-}
-
-.input-netflix::placeholder {
-  color: #8c8c8c;
-}
-
-.input-netflix:focus {
-  background-color: #454545;
-  border-color: #aaa;
-}
-
-.input-netflix:focus-visible {
-  outline: none;
-  border-color: var(--netflix-red);
-}
-
-/* ─── Cards ─────────────────────────────────────────────────── */
-.content-card {
-  position: relative;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  transform-origin: center center;
-}
-
-.content-card:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-card);
-  z-index: 10;
-}
-
-.content-card img {
-  width: 100%;
-  aspect-ratio: 2/3;
-  object-fit: cover;
-  display: block;
-}
-
-/* ─── Content Row ───────────────────────────────────────────── */
-.content-row-container {
-  position: relative;
-}
-
-.content-row-scroll {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 4px 48px;
-  scroll-snap-type: x mandatory;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.content-row-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.content-row-scroll > * {
-  scroll-snap-align: start;
-  flex-shrink: 0;
-}
-
-.row-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 20;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  border: none;
-  padding: 24px 8px;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity var(--transition-base), background var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.content-row-container:hover .row-arrow {
-  opacity: 1;
-}
-
-.row-arrow:hover {
-  background: rgba(0, 0, 0, 0.9);
-}
-
-.row-arrow-left  { left: 0; border-radius: 0 var(--border-radius) var(--border-radius) 0; }
-.row-arrow-right { right: 0; border-radius: var(--border-radius) 0 0 var(--border-radius); }
-
-/* ─── Hero Banner ───────────────────────────────────────────── */
-.hero-gradient-left {
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0.6) 40%,
-    rgba(0, 0, 0, 0.1) 70%,
-    transparent 100%
-  );
-}
-
-.hero-gradient-bottom {
-  background: linear-gradient(
-    to top,
-    #141414 0%,
-    rgba(20, 20, 20, 0.8) 20%,
-    transparent 60%
-  );
-}
-
-/* ─── Modal / Overlay ───────────────────────────────────────── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.2s ease;
-  backdrop-filter: blur(2px);
-}
-
-.modal-content {
-  background: #181818;
-  border-radius: 8px;
-  width: 90%;
-  max-width: 860px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: var(--shadow-modal);
-  animation: fadeInUp 0.3s ease;
-}
-
-/* ─── Badge ─────────────────────────────────────────────────── */
-.badge {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 2px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.badge-new    { background: var(--netflix-red); color: #fff; }
-.badge-rating { border: 1px solid #aaa; color: #aaa; }
-.badge-genre  { background: rgba(255,255,255,0.1); color: #ccc; border-radius: 20px; }
-
-/* ─── Progress Bar ──────────────────────────────────────────── */
-.progress-bar {
-  height: 3px;
-  background: #555;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.progress-bar-fill {
-  height: 100%;
-  background: var(--netflix-red);
-  border-radius: 2px;
-  transition: width 0.5s ease;
-}
-
-/* ─── Rating Stars ──────────────────────────────────────────── */
-.star-rating {
-  display: flex;
-  gap: 4px;
-}
-
-.star-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background-color var(--transition-fast),
-              transform var(--transition-fast);
-  cursor: pointer;
-  border: none;
-  background: #2a2a2a;
-  color: #888;
-}
-
-.star-btn:hover,
-.star-btn.active {
-  background: #f5c518;
-  color: #000;
-  transform: scale(1.1);
-}
-
-/* ─── Genre Tags ────────────────────────────────────────────── */
-.genre-tag {
-  display: inline-block;
-  padding: 4px 12px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  color: #ccc;
-  font-size: 0.75rem;
-  font-weight: 500;
-  transition: background var(--transition-fast), color var(--transition-fast);
-  cursor: default;
-}
-
-.genre-tag:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-}
-
-/* ─── Page Title ────────────────────────────────────────────── */
-.page-title {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 800;
-  color: #fff;
-  letter-spacing: -0.02em;
-}
-
-/* ─── Section Heading ───────────────────────────────────────── */
-.section-heading {
-  font-size: clamp(1rem, 2vw, 1.25rem);
-  font-weight: 700;
-  color: #e5e5e5;
-  margin-bottom: 12px;
-  padding-left: 48px;
-  transition: color var(--transition-fast);
-}
-
-.section-heading:hover {
-  color: #ffffff;
-}
-
-/* ─── Divider ───────────────────────────────────────────────── */
-.divider {
-  border: none;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin: 24px 0;
-}
-
-/* ─── Toast overrides ───────────────────────────────────────── */
-.react-hot-toast > div {
-  font-family: 'Inter', sans-serif !important;
-}
+.spinner--sm { width:24px; height:24px; }
+.spinner--md { width:40px; height:40px; }
+.spinner--lg { width:60px; height:60px; border-width:4px; }
