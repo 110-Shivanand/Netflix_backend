@@ -9,11 +9,13 @@ services:
 
   # ── FastAPI backend ──────────────────────────────────────────
   api:
+    # CI/CD sets DOCKERHUB_USERNAME and IMAGE_TAG in .env.
+    # Local dev can still use `docker compose up --build` which
+    # falls back to building from the Dockerfile when image is absent.
+    image: ${DOCKERHUB_USERNAME:-local}/movies-api:${IMAGE_TAG:-latest}
     build:
       context: .
       dockerfile: Dockerfile
-      # pass build-time args if you need them (none required here)
-    image: movies-api:latest
     container_name: movies_api
 
     # ── Environment ─────────────────────────────────────────────
