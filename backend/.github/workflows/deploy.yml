@@ -33,11 +33,9 @@ name: Build → Push → Deploy
 
 on:
   push:
-    branches: [main]
-    paths:
-      # only re-run when backend code actually changes
-      - "training_folders/backend/**"
-      - ".github/workflows/deploy.yml"
+    branches: 
+          - main
+    
   workflow_dispatch:   # allow manual trigger from GitHub UI
 
 # Cancel any in-progress run on the same branch
