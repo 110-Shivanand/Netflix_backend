@@ -1,0 +1,91 @@
+# ═══════════════════════════════════════════════════════════════
+#  docker-compose.yml — Production-ready backend
+#  Usage:
+#    docker compose up -d --build
+#  Secrets are read from .env (never committed to git).
+# ═══════════════════════════════════════════════════════════════
+
+services:
+
+  # ── FastAPI backend ──────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # pass build-time args if you need them (none required here)
+    image: movies-api:latest
+    container_name: movies_api
+
+    # ── Environment ─────────────────────────────────────────────
+    # Docker Compose automatically reads .env in the same directory.
+    # Each variable is explicitly mapped so the container only gets
+    # what it needs — no accidental secret leakage.
+    environment:
+      APP_NAME:        ${APP_NAME}
+      ENVIRONMENT:     ${ENVIRONMENT}
+      OMDB_API_KEY:    ${OMDB_API_KEY}
+      OMDB_BASE_URL:   ${OMDB_BASE_URL}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS}
+      WORKERS:         ${WORKERS:-4}
+
+    # ── Ports ───────────────────────────────────────────────────
+    ports:
+      - "${API_PORT:-8000}:8000"
+
+    # ── Restart policy ──────────────────────────────────────────
+    restart: unless-stopped
+
+    # ── Health check (mirrors Dockerfile HEALTHCHECK) ───────────
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout:  10s
+      retries:  3
+      start_period: 15s
+
+    # ── Resource limits ─────────────────────────────────────────
+    deploy:
+      resources:
+        limits:
+          cpus:   "${CPU_LIMIT:-1.0}"
+          memory: "${MEM_LIMIT:-512m}"
+        reservations:
+          cpus:   "0.25"
+          memory: "128m"
+
+    # ── Logging ─────────────────────────────────────────────────
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+    # ── Network ─────────────────────────────────────────────────
+    networks:
+      - backend_net
+
+# ── Optional: nginx reverse proxy ───────────────────────────
+# Uncomment the block below when you want to put nginx in front
+# of the API (recommended for production).
+#
+#  nginx:
+#    image: nginx:1.27-alpine
+#    container_name: movies_nginx
+#    ports:
+#      - "80:80"
+#      - "443:443"
+#    volumes:
+#      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+#      - ./nginx/certs:/etc/nginx/certs:ro
+#    depends_on:
+#      api:
+#        condition: service_healthy
+#    restart: unless-stopped
+#    networks:
+#      - backend_net
+
+# ── Networks ────────────────────────────────────────────────
+networks:
+  backend_net:
+    driver: bridge

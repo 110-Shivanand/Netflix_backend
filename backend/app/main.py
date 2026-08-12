@@ -1,48 +1,76 @@
-from fastapi import FastAPI, Request
+import os
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.util import get_remote_address
-from slowapi.errors import RateLimitExceeded
-from app.core.config import settings
-from app.api.v1 import api_router
+from dotenv import load_dotenv
+import httpx
 
-# Rate limiter
-limiter = Limiter(key_func=get_remote_address)
+load_dotenv()
 
+# ── Config ───────────────────────────────────────────────────
+APP_NAME      = os.getenv("APP_NAME",      "Movies API")
+ENVIRONMENT   = os.getenv("ENVIRONMENT",   "development")
+OMDB_API_KEY  = os.getenv("OMDB_API_KEY",  "")
+OMDB_BASE_URL = os.getenv("OMDB_BASE_URL", "http://www.omdbapi.com/")
+_origins_raw = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000")
+ALLOWED_ORIGINS = ["*"] if _origins_raw.strip() == "*" else [
+    o.strip() for o in _origins_raw.split(",") if o.strip()
+]
+
+# ── App ──────────────────────────────────────────────────────
 app = FastAPI(
-    title=settings.APP_NAME,
+    title=APP_NAME,
     version="1.0.0",
-    description="Netflix Clone REST API",
-    docs_url="/docs" if settings.ENVIRONMENT == "development" else None,
-    redoc_url="/redoc" if settings.ENVIRONMENT == "development" else None,
+    docs_url="/docs" if ENVIRONMENT == "development" else None,
+    redoc_url="/redoc" if ENVIRONMENT == "development" else None,
 )
 
-# Rate limiting
-app.state.limiter = limiter
-app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
-
-# CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL, "http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=ALLOWED_ORIGINS != ["*"],  # can't use credentials with wildcard
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 
-# API routes
-app.include_router(api_router, prefix="/api/v1")
+
+# ── Routes ───────────────────────────────────────────────────
+@app.get("/movies", summary="Search movies by title")
+async def get_movies(
+    search: str = Query(..., description="Movie title to search for"),
+    page:   int = Query(1, ge=1, description="Page number (10 results per page)"),
+):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            OMDB_BASE_URL,
+            params={"apikey": OMDB_API_KEY, "s": search, "page": page, "type": "movie"},
+        )
+        data = response.json()
+
+    if data.get("Response") == "False":
+        return {"movies": [], "total_results": 0, "page": page, "error": data.get("Error")}
+
+    return {
+        "movies":        data.get("Search", []),
+        "total_results": int(data.get("totalResults", 0)),
+        "page":          page,
+    }
 
 
-@app.get("/health")
-def health_check():
-    return {"status": "healthy", "app": settings.APP_NAME}
+@app.get("/movies/{imdb_id}", summary="Get full movie details by IMDb ID")
+async def get_movie_detail(imdb_id: str):
+    async with httpx.AsyncClient() as client:
+        response = await client.get(
+            OMDB_BASE_URL,
+            params={"apikey": OMDB_API_KEY, "i": imdb_id, "plot": "full"},
+        )
+        data = response.json()
+
+    if data.get("Response") == "False":
+        return {"error": data.get("Error")}
+
+    return data
 
 
-@app.exception_handler(Exception)
-async def global_exception_handler(request: Request, exc: Exception):
-    return JSONResponse(
-        status_code=500,
-        content={"detail": "Internal server error"},
-    )
+@app.get("/health", summary="Health check")
+def health():
+    return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}

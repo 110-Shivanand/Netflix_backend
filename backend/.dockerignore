@@ -1,0 +1,73 @@
+# ═══════════════════════════════════════════════════════════════
+#  .dockerignore — keeps the build context lean and secrets safe
+# ═══════════════════════════════════════════════════════════════
+
+# ── Secrets & local config ───────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ── Python cache & bytecode ──────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# ── Virtual environments ─────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+.virtualenv/
+
+# ── Test & coverage artefacts ────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.coveragerc
+tests/
+test_*.py
+*_test.py
+
+# ── Type-checking & linting ──────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+.pytype/
+
+# ── IDE & editor files ───────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Git ──────────────────────────────────────────────────────
+.git/
+.gitignore
+.gitattributes
+
+# ── Docker files (no need to copy these into the image) ──────
+Dockerfile
+Dockerfile.*
+docker-compose*.yml
+.dockerignore
+
+# ── Docs & local scripts ─────────────────────────────────────
+*.md
+*.rst
+*.txt
+!requirements.txt
+docs/
+scripts/
+
+# ── Alembic migrations (not needed at runtime) ───────────────
+alembic/
+alembic.ini
+
+# ── Log files ────────────────────────────────────────────────
+*.log
+logs/
