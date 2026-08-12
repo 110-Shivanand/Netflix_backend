@@ -33,7 +33,8 @@ name: Build → Push → Deploy
 
 on:
   push:
-    branches: [main]
+    branches: 
+          - main
     
   workflow_dispatch:   # allow manual trigger from GitHub UI
 
