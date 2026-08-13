@@ -66,8 +66,9 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: pip
-          cache-dependency-path: training_folders/backend/requirements.txt
+          # Don't use cache here since requirements.txt is in a subfolder
+          # cache: pip
+          # cache-dependency-path: training_folders/backend/requirements.txt
 
       - name: Install dependencies
         run: pip install --no-cache-dir -r requirements.txt
