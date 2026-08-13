@@ -34,7 +34,7 @@ name: Build → Push → Deploy
 on:
   push:
     branches:
-      - main
+      - main2
   workflow_dispatch:   # allow manual trigger from GitHub UI
 
 # Cancel any in-progress run on the same branch
