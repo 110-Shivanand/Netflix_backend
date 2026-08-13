@@ -192,8 +192,9 @@ jobs:
           CPU_LIMIT=${{ secrets.CPU_LIMIT }}
           MEM_LIMIT=${{ secrets.MEM_LIMIT }}
 
-          # Image to run (pinned to the SHA just pushed)
-          IMAGE_TAG=${{ needs.build-and-push.outputs.image_tag }}
+          # Docker Hub image to pull
+          DOCKERHUB_USERNAME=${{ secrets.DOCKERHUB_USERNAME }}
+          IMAGE_TAG=latest
           EOF"
 
       # ── Pull new image & restart via docker compose ────────
