@@ -6,7 +6,6 @@ import httpx
 
 load_dotenv()
 
-# ── Config ───────────────────────────────────────────────────
 APP_NAME      = os.getenv("APP_NAME",      "Movies API")
 ENVIRONMENT   = os.getenv("ENVIRONMENT",   "development")
 OMDB_API_KEY  = os.getenv("OMDB_API_KEY",  "")
@@ -33,13 +32,14 @@ app.add_middleware(
 )
 
 
-# ── Routes ───────────────────────────────────────────────────
+@app.get("/movies", summary="Search movies by title")
+async def get_movies(
 @app.get("/movies", summary="Search movies by title")
 async def get_movies(
     search: str = Query(..., description="Movie title to search for"),
     page:   int = Query(1, ge=1, description="Page number (10 results per page)"),
 ):
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=15.0) as client:
         response = await client.get(
             OMDB_BASE_URL,
             params={"apikey": OMDB_API_KEY, "s": search, "page": page, "type": "movie"},
@@ -58,7 +58,7 @@ async def get_movies(
 
 @app.get("/movies/{imdb_id}", summary="Get full movie details by IMDb ID")
 async def get_movie_detail(imdb_id: str):
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=15.0) as client:
         response = await client.get(
             OMDB_BASE_URL,
             params={"apikey": OMDB_API_KEY, "i": imdb_id, "plot": "full"},
@@ -69,8 +69,6 @@ async def get_movie_detail(imdb_id: str):
         return {"error": data.get("Error")}
 
     return data
-
-
 @app.get("/health", summary="Health check")
 def health():
     return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}
