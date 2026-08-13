@@ -1,5 +1,5 @@
 # ═══════════════════════════════════════════════════════════════
-#  docker-compose.yml — Production-ready backend
+#  docker-compose.yml — Production-ready backend with monitoring
 #  Usage:
 #    docker compose up -d --build
 #  Secrets are read from .env (never committed to git).
@@ -67,6 +67,75 @@ services:
     networks:
       - backend_net
 
+
+  # ── Prometheus ───────────────────────────────────────────────
+  prometheus:
+    image: prom/prometheus:v2.50.1
+    container_name: movies_prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      # Config file (read-only)
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      # Persistent data storage
+      - prometheus_data:/prometheus
+    environment:
+      - TZ=UTC
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      # Allow Prometheus to run in a container without strict security
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - backend_net
+    depends_on:
+      api:
+        condition: service_healthy
+
+
+  # ── Grafana ──────────────────────────────────────────────────
+  grafana:
+    image: grafana/grafana:10.2.2
+    container_name: movies_grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persistent data storage
+      - grafana_data:/var/lib/grafana
+      # Auto-provision datasources
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      # Auto-provision dashboards
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+    environment:
+      # Admin credentials (change these in production!)
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - TZ=UTC
+      # Enable dashboard provisioning
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - backend_net
+    depends_on:
+      - prometheus
+
+
 # ── Optional: nginx reverse proxy ───────────────────────────
 # Uncomment the block below when you want to put nginx in front
 # of the API (recommended for production).
@@ -91,3 +160,11 @@ services:
 networks:
   backend_net:
     driver: bridge
+
+# ── Volumes ────────────────────────────────────────────────
+volumes:
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+

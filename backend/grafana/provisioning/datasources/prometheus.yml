@@ -1,0 +1,22 @@
+# ═══════════════════════════════════════════════════════════════
+#  Grafana Datasource Provisioning — Prometheus
+#
+#  This file auto-configures Prometheus as a data source in Grafana
+#  on startup. Place it in the provisioning/datasources directory.
+# ═══════════════════════════════════════════════════════════════
+
+apiVersion: 1
+
+# Delete datasources that are not defined in this file
+deleteDataSourceByUID: false
+
+# List of datasources to provision
+datasources:
+  - name: Prometheus
+    type: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    isDefault: true
+    editable: true
+    jsonData:
+      timeInterval: 15s

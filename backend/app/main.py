@@ -3,6 +3,7 @@ from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 import httpx
+from prometheus_fastapi_instrumentator import Instrumentator
 
 load_dotenv()
 
@@ -24,6 +25,7 @@ app = FastAPI(
     redoc_url="/redoc" if ENVIRONMENT == "development" else None,
 )
 
+# ── CORS Middleware ──────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
@@ -31,6 +33,10 @@ app.add_middleware(
     allow_methods=["GET"],
     allow_headers=["*"],
 )
+
+# ── Prometheus Metrics ───────────────────────────────────────
+# Exposes metrics at /metrics endpoint
+Instrumentator().instrument(app).expose(app)
 
 
 # ── Routes ───────────────────────────────────────────────────
@@ -74,3 +80,4 @@ async def get_movie_detail(imdb_id: str):
 @app.get("/health", summary="Health check")
 def health():
     return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}
+
