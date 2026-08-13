@@ -167,6 +167,19 @@ jobs:
               backend/docker-compose.yml \
               ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ env.DEPLOY_DIR }}/docker-compose.yml
 
+          scp -i ~/.ssh/deploy_key \
+              -o StrictHostKeyChecking=no \
+              backend/prometheus.yml \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ env.DEPLOY_DIR }}/prometheus.yml
+
+      # ── Copy Grafana provisioning files to EC2 ────────────────
+      - name: Copy Grafana provisioning to EC2
+        run: |
+          scp -r -i ~/.ssh/deploy_key \
+              -o StrictHostKeyChecking=no \
+              backend/grafana \
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ env.DEPLOY_DIR }}/
+
       # ── Write .env on EC2 from GitHub Secrets ─────────────
       # This runs entirely over SSH — the .env file is written
       # directly on the server, never stored in the runner or logs.
