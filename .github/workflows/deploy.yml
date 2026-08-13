@@ -4,7 +4,7 @@
 #  Flow:
 #    1. Triggered on push to `main` (or manual dispatch)
 #    2. Run lint + import check
-#    3. Build Docker image & push to Docker Hub
+#    3. Build Docker image & push t Docker Hub
 #    4. SSH into EC2 → write .env from GitHub Secrets
 #    5. Pull new image & restart container via docker compose
 #
@@ -34,7 +34,7 @@ name: Build → Push → Deploy
 on:
   push:
     branches:
-      - main
+      - main2
   workflow_dispatch:   # allow manual trigger from GitHub UI
 
 # Cancel any in-progress run on the same branch
