@@ -165,16 +165,13 @@ jobs:
           scp -i ~/.ssh/deploy_key \
               -o StrictHostKeyChecking=no \
               backend/docker-compose.yml \
-              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ env.DEPLOY_DIR }}/docker-compose.yml
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ env.DEPLOY_DIR }}/
 
           scp -i ~/.ssh/deploy_key \
               -o StrictHostKeyChecking=no \
               backend/prometheus.yml \
-              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ env.DEPLOY_DIR }}/prometheus.yml
+              ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ env.DEPLOY_DIR }}/
 
-      # ── Copy Grafana provisioning files to EC2 ────────────────
-      - name: Copy Grafana provisioning to EC2
-        run: |
           scp -r -i ~/.ssh/deploy_key \
               -o StrictHostKeyChecking=no \
               backend/grafana \
