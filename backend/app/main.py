@@ -6,6 +6,7 @@ import httpx
 
 load_dotenv()
 
+# ── Config ───────────────────────────────────────────────────
 APP_NAME      = os.getenv("APP_NAME",      "Movies API")
 ENVIRONMENT   = os.getenv("ENVIRONMENT",   "development")
 OMDB_API_KEY  = os.getenv("OMDB_API_KEY",  "")
@@ -32,8 +33,7 @@ app.add_middleware(
 )
 
 
-@app.get("/movies", summary="Search movies by title")
-async def get_movies(
+# ── Routes ───────────────────────────────────────────────────
 @app.get("/movies", summary="Search movies by title")
 async def get_movies(
     search: str = Query(..., description="Movie title to search for"),
@@ -69,6 +69,8 @@ async def get_movie_detail(imdb_id: str):
         return {"error": data.get("Error")}
 
     return data
+
+
 @app.get("/health", summary="Health check")
 def health():
     return {"status": "ok", "app": APP_NAME, "environment": ENVIRONMENT}
