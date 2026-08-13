@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: training_folders/backend
+        working-directory: backend
 
     steps:
       - name: Checkout code
@@ -85,7 +85,7 @@ jobs:
     needs: lint
     defaults:
       run:
-        working-directory: training_folders/backend
+        working-directory: backend
 
     outputs:
       image_tag: ${{ steps.meta.outputs.version }}
@@ -121,8 +121,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: training_folders/backend
-          file:    training_folders/backend/Dockerfile
+          context: backend
+          file:    backend/Dockerfile
           push:    true
           tags:    ${{ steps.meta.outputs.tags }}
           labels:  ${{ steps.meta.outputs.labels }}
@@ -164,7 +164,7 @@ jobs:
 
           scp -i ~/.ssh/deploy_key \
               -o StrictHostKeyChecking=no \
-              training_folders/backend/docker-compose.yml \
+              backend/docker-compose.yml \
               ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:${{ env.DEPLOY_DIR }}/docker-compose.yml
 
       # ── Write .env on EC2 from GitHub Secrets ─────────────
