@@ -216,6 +216,9 @@ jobs:
             echo '── Pruning unused images ──'
             docker image prune -f
 
+            echo '── Removing old tagged images (keep last 3) ──'
+            docker images ${{ secrets.DOCKERHUB_USERNAME }}/movies-api --format "table {{.Repository}}:{{.Tag}}\t{{.CreatedAt}}\t{{.Size}}" | sort -k2 -r | tail -n +4 | awk '{print $1}' | xargs -r docker rmi -f || true
+
             echo '── Container status ──'
             docker compose ps
 
